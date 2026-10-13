@@ -5,43 +5,51 @@
 - **shaula.kr**: 나를 소개하고 생각과 활동을 기록하는 곳
 - **뜰**: 직접 만든 프로젝트를 전시하고 새로운 웹 실험으로 연결하는 곳
 
-현재 버전은 HTML, CSS, JavaScript로 만든 정적 사이트입니다. DB와 환경 변수 없이 실행할 수 있습니다. Next.js로의 전환과 Vercel 연결은 아직 진행하지 않았습니다.
+Next.js 16 App Router, React 19, TypeScript로 구성합니다. 현재 전시 페이지는 DB와 환경 변수 없이 실행하며, 검색과 단계 필터, 프로젝트 상세 보기를 제공합니다.
 
 ## 로컬 실행
 
-Python 3이 설치되어 있다면 저장소 루트에서 실행하세요.
+Node.js 24를 사용합니다.
 
 ```sh
-python3 -m http.server 3000
+npm ci
+npm run dev
 ```
 
 브라우저에서 http://localhost:3000 을 엽니다.
 
-## 파일 구성
-
-- `index.html`: 홈, 정원 소개, 상세 보기 틀
-- `style.css`: 반응형 디자인과 글꼴
-- `app.js`: 프로젝트 목록, 검색, 단계 필터, 상세 보기
-- `assets/`: 프로젝트 이미지와 Pretendard 글꼴 및 라이선스
-
-## 프로젝트 추가와 수정
-
-`app.js`의 `projects` 배열에서 프로젝트를 관리합니다. 이름, 소개, 제작 이야기, 단계와 외부 링크를 함께 적습니다. 아직 자라는 프로젝트는 `자라는 중`, 사용할 수 있는 프로젝트는 `활짝 핀`으로 분류합니다.
-
-방문자 등록과 브라우저 로컬 저장은 사용하지 않습니다. 콘텐츠는 저장소의 코드로 관리하며, DB는 사용자별 데이터 저장이 필요한 실험에 도입합니다.
-
-## 호스팅
-
-정적 웹 호스팅에서 저장소 루트를 제공하면 동작합니다. Vercel에서 이 버전을 가져올 경우 Framework Preset은 `Other`, 빌드 명령은 비워두고 Output Directory는 `.`로 설정합니다.
-
-기존 ChatGPT Sites의 비공개 배포와 이 저장소는 자동으로 동기화되지 않습니다. GitHub에 커밋했다고 기존 Sites 배포가 바뀌지 않습니다. Vercel에서 GitHub 저장소를 연결하면 이후 커밋의 자동 배포를 설정할 수 있습니다.
-
-장기적으로는 Next.js 앱으로 옮겨 `/lab/실험명` 아래 작은 실험을 추가하고, 독립적인 운영이 필요한 서비스는 별도 저장소와 배포로 분리할 수 있습니다.
-
-## 확인
+## 확인과 프로덕션 실행
 
 ```sh
-node --check app.js
+npm run typecheck
+npm run build
+npm start
 ```
 
-검색, 단계 필터와 프로젝트 상세 보기를 변경한 경우 브라우저에서도 확인하세요.
+## 파일 구성
+
+- `src/app/page.tsx`: 홈, 정원 소개와 공통 내비게이션
+- `src/app/layout.tsx`: 한국어 문서와 검색 메타데이터
+- `src/app/globals.css`: 반응형 스타일
+- `src/lib/projects.ts`: 프로젝트 데이터와 검색·단계 필터
+- `src/components/ProjectGarden.tsx`: 프로젝트 탐색과 상세 모달
+- `src/components/ProjectPreview.tsx`: 프로젝트 미리보기
+- `public/assets/`: 이미지와 Pretendard 글꼴 및 라이선스
+
+프로젝트를 추가하거나 수정하려면 `src/lib/projects.ts`를 편집합니다. 실제 링크, 만든 이야기와 현재 단계를 함께 적습니다. `자라는 중`은 프로토타입, `활짝 핀`은 사용할 수 있는 프로젝트입니다.
+
+작은 실험은 `src/app/lab/실험명/page.tsx`로 추가할 수 있습니다. 데이터 저장이 필요한 실험에만 DB를 도입하고, 독립적인 운영이 필요한 서비스는 별도 저장소와 배포로 분리합니다.
+
+## Vercel 자동 배포
+
+- GitHub 저장소: `LamdaLee/tteul`
+- Vercel 팀과 프로젝트: `lamda7` / `tteul`
+- Framework Preset: `Next.js`
+- Root Directory: 저장소 루트
+- Install Command: `npm ci`
+- Build Command: `npm run build`
+- Production Branch: `main`
+
+Vercel의 GitHub 연결을 통해 `main` 업데이트는 프로덕션 배포, 다른 브랜치와 PR은 프리뷰 배포로 이어집니다. 별도 GitHub Actions 배포 작업이나 Vercel 토큰이 필요하지 않습니다. 배포 접근 보호는 Vercel 프로젝트 설정을 따릅니다.
+
+기존 ChatGPT Sites 배포는 별도 사본이며 GitHub 커밋과 동기화되지 않습니다. 이후 운영 소스는 이 저장소를 기준으로 관리합니다.
