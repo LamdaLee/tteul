@@ -1,1 +1,9 @@
-{"framework":"nextjs","buildCommand":"npm run build","installCommand":"npm ci"}
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci",
+  "redirects": [
+    { "source": "/", "destination": "https://shaula.kr/case", "permanent": false },
+    { "source": "/:path*", "destination": "https://shaula.kr/case", "permanent": false }
+  ]
+}
