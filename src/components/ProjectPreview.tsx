@@ -9,7 +9,7 @@ export function ProjectPreview({ project }: { project: Project }) {
     </div>
   );
   if (project.theme === "thought") return (
-    <div className="preview thought" aria-label="생각 카드가 연결되는 모아틀의 흐름">
+    <div className="preview thought" aria-label="생각 카드가 연결되는 별이음의 흐름">
       <span className="preview-label">CONNECT YOUR THOUGHTS</span>
       <div className="thought-line" />
       <div className="thought-card t1"><small>문득 떠오른 생각</small><strong>이런 도구가 있으면?</strong></div>
